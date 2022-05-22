@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
 
-export default function App() {
+import { NavigationContainer } from "@react-navigation/native";
+import RootNavigator from "./src/navigation";
+import { Amplify } from 'aws-amplify';
+import config from './src/aws-exports';
+import { withAuthenticator } from "aws-amplify-react-native/dist/Auth";
+
+Amplify.configure(config)
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+    
+        <RootNavigator/>
+        <StatusBar style="light" />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default withAuthenticator(App)
