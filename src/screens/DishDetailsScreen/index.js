@@ -1,16 +1,37 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
+import { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import {useNavigation} from '@react-navigation/native'
-
-
-import restaurants from "../../../assets/data/restaurants.json";
-const dish = restaurants[0].dishes[0];
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Dish } from "../../models";
+import { DataStore } from "aws-amplify";
+import { useBasketContext } from "../../context/BasketContext";
 
 const DishDetailsScreen = () => {
+  const [dish, setDish] = useState(null);
+
   const navigation = useNavigation();
+  const route = useRoute();
+  const id = route.params?.id;
 
   const [quantity, setQuantity] = useState(1);
+  const { addDishToBasket } = useBasketContext();
+
+  useEffect(() => {
+    if (id) {
+      DataStore.query(Dish, id).then(setDish);
+    }
+  }, [id]);
+
+  const onAddToBasket = async () => {
+    await addDishToBasket(dish, quantity);
+    navigation.goBack();
+  };
 
   const onMinus = () => {
     if (quantity > 1) {
@@ -22,9 +43,13 @@ const DishDetailsScreen = () => {
     setQuantity(quantity + 1);
   };
 
-  const getTotal = () => { 
+  const getTotal = () => {
     return (dish.price * quantity).toFixed(2);
-   }
+  };
+
+  if (!dish) {
+    return <ActivityIndicator color="gray" size={"large"} />;
+  }
 
   return (
     <View style={styles.page}>
@@ -48,8 +73,10 @@ const DishDetailsScreen = () => {
         />
       </View>
 
-      <Pressable onPress={() => navigation.navigate("Basket")} style={styles.button}>
-        <Text style={styles.buttonText}>Add {quantity} items to basket  &#8226; (${getTotal()})</Text>
+      <Pressable onPress={onAddToBasket} style={styles.button}>
+        <Text style={styles.buttonText}>
+          Add {quantity} items to basket &#8226; (${getTotal()})
+        </Text>
       </Pressable>
     </View>
   );
@@ -92,11 +119,11 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     marginTop: "auto",
     padding: 20,
-    alignItems: "center"
+    alignItems: "center",
   },
   buttonText: {
     color: "white",
     fontWeight: "600",
     fontSize: 18,
-  }
+  },
 });

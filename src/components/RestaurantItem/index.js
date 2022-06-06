@@ -1,25 +1,28 @@
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 
+const DEFAULT_IMAGE = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant1.jpeg"
+
 const RestaurantItem = ({ restaurant }) => {
   const navigation = useNavigation();
   const onPress = () => {
+    console.log(restaurant.id, "<== botonazo");
     navigation.navigate("Restaurant", {id: restaurant.id});
   }
   return (
     <Pressable onPress={onPress} style={styles.restuarantContainer}>
-      <Image source={{ uri: restaurant.image }} style={styles.image} />
+      <Image source={{ uri: restaurant.image.startsWith('http') ? restaurant.image : DEFAULT_IMAGE }} style={styles.image} />
       <View style={styles.row}>
         <View>
           <Text style={styles.title}>{restaurant.name}</Text>
           <Text style={styles.subtitle}>
-            ${restaurant.deliveryFee} &#8226; {restaurant.minDeliveryTime}-
+            ${restaurant.deliveryFee.toFixed(1)} &#8226; {restaurant.minDeliveryTime}-
             {restaurant.maxDeliveryTime} minutes
           </Text>
         </View>
 
         <View style={styles.rating}>
-          <Text>{restaurant.rating}</Text>
+          <Text>{restaurant.rating.toFixed(1)}</Text>
         </View>
       </View>
     </Pressable>
