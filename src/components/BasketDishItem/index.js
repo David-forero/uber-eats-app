@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, FlatList } from "react-native";
 // const restaurant = restaurants[0];
 
 const BasketDishItem = ({basketDish}) => {
-  console.log(basketDish);
     return (
       <View style={styles.row}>
         <View style={styles.quantityContainer}>

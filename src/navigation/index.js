@@ -13,6 +13,7 @@ import {
 import Profile from "../screens/ProfileScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useAuthContext } from "../context/AuthContext";
+import OrderDetailsNavigator from "./OrderDetailsNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,7 +49,7 @@ const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Orders"
+        name="OrdersTab"
         component={OrderStackNavigator}
         options={{
           tabBarIcon: ({ color }) => (
@@ -92,7 +93,7 @@ const OrderStackNavigator = () => {
   return (
     <OrdersStack.Navigator>
       <OrdersStack.Screen name="Orders" component={OrderScreen} />
-      <OrdersStack.Screen name="Order" component={OrderDetails} />
+      <OrdersStack.Screen name="Order" component={OrderDetailsNavigator} screenOptions={{headerShown: false}} />
     </OrdersStack.Navigator>
   );
 };

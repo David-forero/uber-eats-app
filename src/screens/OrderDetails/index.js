@@ -1,17 +1,10 @@
 import { Image, Text, View, FlatList, ActivityIndicator } from "react-native";
-// import orders from "../../../assets/data/orders.json";
-// import restaurants from "../../../assets/data/restaurants.json";
 import styles from "./styles";
 import BasketDishItem from "../../components/BasketDishItem";
 import { useOrderContext } from "../../context/OrderContext";
 import {useEffect, useState} from 'react';
-import { useRoute } from '@react-navigation/native';
-// const order = orders[0];
-// const restaurant = restaurants[0];
 
 const OrderDetailsHeader = ({order}) => {
- 
-
   return (
     <View>
       <View style={styles.page}>
@@ -28,13 +21,10 @@ const OrderDetailsHeader = ({order}) => {
   );
 };
 
-const OrderDetails = () => {
+const OrderDetails = ({id}) => {
 
   const [order, setOrder] = useState();
   const {getOrder} = useOrderContext();
-  const route = useRoute();
-  const id = route.params?.id;
-
 
   useEffect(() => {
     getOrder(id).then(setOrder)  
@@ -43,8 +33,6 @@ const OrderDetails = () => {
   if (!order) {
     return <ActivityIndicator color="gray" size={"large"} />;
   }
-  
-  console.log(order);
   
   return (
     <FlatList

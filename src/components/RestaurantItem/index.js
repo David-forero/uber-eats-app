@@ -6,7 +6,6 @@ const DEFAULT_IMAGE = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-
 const RestaurantItem = ({ restaurant }) => {
   const navigation = useNavigation();
   const onPress = () => {
-    console.log(restaurant.id, "<== botonazo");
     navigation.navigate("Restaurant", {id: restaurant.id});
   }
   return (

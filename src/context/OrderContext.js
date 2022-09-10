@@ -40,14 +40,12 @@ const OrderContextProvider = ({ children }) => {
       )
     );
 
-    console.log("termina de guardar la orden");
-
     // delete basket
     await DataStore.delete(basket);
 
-    console.log("Elimina la cesta del usuario");
-
     setOrders([...orders, newOrder]);
+
+    return newOrder;
   };
 
   const getOrder = async (id) => {
@@ -55,9 +53,6 @@ const OrderContextProvider = ({ children }) => {
     const orderDishes = await DataStore.query(OrderDish, (od) =>
       od.orderID("eq", id)
     );
-
-    console.log(order);
-    console.log(orderDishes);
 
     return { ...order, dishes: orderDishes };
   };
