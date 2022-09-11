@@ -41,7 +41,6 @@ const OrderLivesUpdates = ({ id }) => {
 
   useEffect(() => {
     if (courier?.lng && courier?.lat) {
-      console.log('mi delivery 🛵');
       mapRef.current.animateToRegion({
         latitude: courier?.lat,
         longitude: courier?.lng,
