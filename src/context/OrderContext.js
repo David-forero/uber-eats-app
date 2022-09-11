@@ -26,7 +26,6 @@ const OrderContextProvider = ({ children }) => {
       })
     );
 
-    console.log("terminando de poner el status");
     // add all basketDishes to the order
     await Promise.all(
       basketDishes.map((basketDish) =>
